@@ -1,72 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Portal</title>
+    <title>موقع الأستاذ صفوان إدريس</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --bg: #0a0a0c; --accent: #00d4ff; --card: #16161a; }
-        body { font-family: sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; }
-        .header { padding: 40px 20px; background: linear-gradient(to bottom, #111, var(--bg)); }
-        .profile-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent); }
-        
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 90%; max-width: 400px; margin: 20px auto; }
-        .card { background: var(--card); padding: 30px 10px; border-radius: 20px; border: 1px solid #333; cursor: pointer; }
-        
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 999; }
-        .top-bar { height: 60px; background: #111; display: flex; align-items: center; padding: 0 15px; justify-content: space-between; }
-        .btn-back { background: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        
-        iframe { width: 100%; height: calc(100% - 60px); border: none; }
-        
-        .quiz-item { background: #1a1a1a; padding: 15px; border-radius: 12px; margin: 15px; border-right: 4px solid var(--accent); text-align: right; cursor: pointer; }
+        :root {
+            --primary-color: #00d4ff;
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #050505;
+            color: #fff;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 400px;
+            margin-top: 40px;
+            padding: 25px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 35px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+            padding: 5px;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* تعديل العنوان ليكون على سطرين */
+        .title-section { margin: 15px 0; }
+        .title-section span { display: block; line-height: 1.2; }
+        .title-top { font-size: 1.1rem; font-weight: 400; opacity: 0.9; }
+        .title-name { font-size: 1.6rem; font-weight: 900; color: var(--primary-color); }
+
+        .phone-number {
+            display: block;
+            color: #fff;
+            font-size: 1.1rem;
+            text-decoration: none;
+            margin-bottom: 25px;
+            direction: ltr;
+            opacity: 0.8;
+        }
+
+        .menu-grid { display: grid; gap: 15px; }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+
+        .action-card:active { transform: scale(0.95); }
+        .action-card i { color: var(--primary-color); font-size: 1.5rem; }
+
+        /* نافذة العرض */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000;
+            z-index: 10000;
+        }
+
+        /* زر الإغلاق في الأسفل */
+        .bottom-close-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #111;
+            padding: 15px 0;
+            text-align: center;
+            border-top: 1px solid #333;
+            z-index: 10001;
+        }
+
+        .btn-close {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 10px 40px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        iframe { width: 100%; height: calc(100% - 75px); border: none; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <img src="https://via.placeholder.com/150" alt="Profile" class="profile-img">
-        <h1>Mathematics Education</h1>
+    <div class="main-container">
+        <img src="photo.jpg" alt="الأستاذ صفوان إدريس" class="profile-img">
+        
+        <div class="title-section">
+            <span class="title-top">موقع الأستاذ</span>
+            <span class="title-name">صفوان إدريس</span>
+        </div>
+        
+        <a href="tel:0992320116" class="phone-number">tel 0992320116</a>
+
+        <div class="menu-grid">
+            <div class="action-card" onclick="openQuiz()">
+                <i class="fas fa-edit"></i>
+                <span>بدء المذاكرة الرقمية</span>
+                <i class="fas fa-chevron-left" style="font-size: 0.8rem; opacity: 0.5;"></i>
+            </div>
+            
+            <div class="action-card" onclick="alert('قريباً...')">
+                <i class="fas fa-book"></i>
+                <span>الملخصات الشاملة</span>
+                <i class="fas fa-chevron-left" style="font-size: 0.8rem; opacity: 0.5;"></i>
+            </div>
+        </div>
     </div>
 
-    <div class="menu-grid">
-        <div class="card" onclick="openOverlay('lib-overlay')">
-            <i class="fas fa-brain"></i>
-            <span>Math Quizzes</span>
+    <div id="quizOverlay" class="overlay">
+        <iframe id="quizFrame"></iframe>
+        <div class="bottom-close-bar">
+            <button class="btn-close" onclick="closeQuiz()">إغلاق والعودة للرئيسية</button>
         </div>
-        <div class="card" onclick="alert('Summaries Soon!')">
-            <i class="fas fa-file-alt"></i>
-            <span>Summaries</span>
-        </div>
-    </div>
-
-    <div id="lib-overlay" class="overlay">
-        <div class="top-bar">
-            <span style="color: var(--accent);">مكتبة الاختبارات</span>
-            <button class="btn-back" onclick="closeOverlay('lib-overlay')">عودة</button>
-        </div>
-        <div class="quiz-item" onclick="startQuiz()">
-            <h3 style="margin:0;">1. مذاكرة المتتاليات (Sequences)</h3>
-            <small style="color:#888;">اختبار تفاعلي مع حلول تفصيلية</small>
-        </div>
-    </div>
-
-    <div id="quiz-overlay" class="overlay">
-        <div class="top-bar">
-            <button class="btn-back" onclick="closeOverlay('quiz-overlay')">الخروج من الاختبار</button>
-            <span style="color: var(--accent);">مذاكرة المتتاليات</span>
-        </div>
-        <iframe id="quiz-frame"></iframe>
     </div>
 
     <script>
-        function openOverlay(id) { document.getElementById(id).style.display = 'block'; }
-        function closeOverlay(id) { document.getElementById(id).style.display = 'none'; }
-        
-        function startQuiz() {
-            document.getElementById('quiz-frame').src = "qwe.html";
-            openOverlay('quiz-overlay');
+        function openQuiz() {
+            document.getElementById('quizFrame').src = "qwe.html";
+            document.getElementById('quizOverlay').style.display = 'block';
+        }
+
+        function closeQuiz() {
+            document.getElementById('quizOverlay').style.display = 'none';
+            document.getElementById('quizFrame').src = "";
         }
     </script>
 </body>
