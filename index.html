@@ -1,3 +1,4 @@
+Safwan Idriss, [04/08/47 07:52 م]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -6,166 +7,126 @@
     <title>موقع الأستاذ صفوان إدريس</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --primary-color: #00d4ff;
-            --glass-bg: rgba(255, 255, 255, 0.07);
-            --glass-border: rgba(255, 255, 255, 0.15);
-        }
+        :root { --primary: #00d4ff; --bg: #0a0a0c; --glass: rgba(22, 22, 26, 0.85); --border: rgba(255, 255, 255, 0.1); }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; min-height: 100vh; overflow-x: hidden; }
+        
+        /* الخلفية الكريستالية */
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1), transparent); z-index: -1; }
 
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: #050505;
-            color: #fff;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-image: radial-gradient(circle at center, #111 0%, #000 100%);
-        }
+        .header { padding: 40px 20px; }
+        .profile-img { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 25px rgba(0, 212, 255, 0.3); object-fit: cover; transition: 0.4s; }
+        .profile-img:hover { transform: scale(1.05) rotate(5deg); }
 
-        .main-container {
-            width: 90%;
-            max-width: 400px;
-            margin-top: 40px;
-            padding: 25px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 35px;
-            text-align: center;
-            animation: fadeIn 0.8s ease-out;
-        }
+        .title-top { display: block; font-size: 1.1rem; opacity: 0.8; margin-top: 15px; }
+        .title-name { display: block; font-size: 1.8rem; font-weight: 900; color: var(--primary); }
+        .phone-link { display: block; color: white; text-decoration: none; font-size: 1.1rem; margin: 10px 0 30px; direction: ltr; opacity: 0.7; }
 
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-color);
-            padding: 5px;
-            object-fit: cover;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-        }
+        /* الشبكة الرئيسية */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 92%; max-width: 420px; margin: 0 auto; }
+        .card { background: var(--glass); padding: 25px 10px; border-radius: 25px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .card i { font-size: 2rem; color: var(--primary); margin-bottom: 12px; display: block; }
+        .card span { font-weight: 700; font-size: 1rem; }
 
-        /* تعديل العنوان ليكون على سطرين */
-        .title-section { margin: 15px 0; }
-        .title-section span { display: block; line-height: 1.2; }
-        .title-top { font-size: 1.1rem; font-weight: 400; opacity: 0.9; }
-        .title-name { font-size: 1.6rem; font-weight: 900; color: var(--primary-color); }
+        /* النوافذ المنبثقة (Overlays) */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; animation: fadeIn 0.3s; }
+        
+        /* قائمة المذاكرات */
+        .list-container { padding: 20px; max-width: 500px; margin: 0 auto; }
+        .list-item { background: #16161a; border: 1px solid #333; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; text-align: right; }
+        .list-item:hover { border-color: var(--primary); background: #1c1c21; }
+        .list-item i { color: var(--primary); font-size: 1.5rem; }
+        .list-info h3 { margin: 0; font-size: 1.1rem; color: var(--primary); }
+        .list-info p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.6; }
 
-        .phone-number {
-            display: block;
-            color: #fff;
-            font-size: 1.1rem;
-            text-decoration: none;
-            margin-bottom: 25px;
-            direction: ltr;
-            opacity: 0.8;
-        }
+        /* أشرطة الإغلاق */
+        .top-bar { height: 65px; background: #111; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #333; }
+        .bottom-bar { position: fixed; bottom: 0; width: 100%; height: 70px; background: #111; display: flex; align-items: center; justify-content: center; border-top: 1px solid #333; }
+        
+        .btn-close { background: #e74c3c; color: white; border: none; padding: 10px 30px; border-radius: 12px; font-weight: 700; cursor: pointer; font-family: 'Cairo'; }
+        
+        iframe { width: 100%; height: calc(100% - 70px); border: none; }
 
-        .menu-grid { display: grid; gap: 15px; }
-
-        .action-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: 0.3s;
-        }
-
-        .action-card:active { transform: scale(0.95); }
-        .action-card i { color: var(--primary-color); font-size: 1.5rem; }
-
-        /* نافذة العرض */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #000;
-            z-index: 10000;
-        }
-
-        /* زر الإغلاق في الأسفل */
-        .bottom-close-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #111;
-            padding: 15px 0;
-            text-align: center;
-            border-top: 1px solid #333;
-            z-index: 10001;
-        }
-
-        .btn-close {
-            background: #ff3b30;
-            color: white;
-            border: none;
-            padding: 10px 40px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        iframe { width: 100%; height: calc(100% - 75px); border: none; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
+Safwan Idriss, [04/08/47 07:52 م]
+<div class="header">
         <img src="photo.jpg" alt="الأستاذ صفوان إدريس" class="profile-img">
-        
         <div class="title-section">
             <span class="title-top">موقع الأستاذ</span>
             <span class="title-name">صفوان إدريس</span>
         </div>
-        
-        <a href="tel:0992320116" class="phone-number">tel 0992320116</a>
+        <a href="tel:0992320116" class="phone-link">tel 0992320116</a>
+    </div>
 
-        <div class="menu-grid">
-            <div class="action-card" onclick="openQuiz()">
-                <i class="fas fa-edit"></i>
-                <span>بدء المذاكرة الرقمية</span>
-                <i class="fas fa-chevron-left" style="font-size: 0.8rem; opacity: 0.5;"></i>
+    <div class="menu-grid">
+        <div class="card" onclick="openOverlay('listOverlay')">
+            <i class="fas fa-book-open"></i>
+            <span>المذاكرات الرقمية</span>
+        </div>
+        
+        <div class="card" onclick="alert('سيتم إضافة الملخصات قريباً')">
+            <i class="fas fa-file-pdf"></i>
+            <span>الملخصات</span>
+        </div>
+    </div>
+
+    <div id="listOverlay" class="overlay" style="background: var(--bg);">
+        <div class="top-bar">
+            <span style="font-weight: 900; color: var(--primary);">قائمة المذاكرات</span>
+            <button class="btn-close" style="padding: 5px 15px;" onclick="closeOverlay('listOverlay')">رجوع</button>
+        </div>
+        
+        <div class="list-container">
+            <div class="list-item" onclick="openQuiz()">
+                <div class="list-info">
+                    <h3>مذاكرة المتتاليات (1)</h3>
+                    <p>اختبار تفاعلي مؤتمت مع الحلول</p>
+                </div>
+                <i class="fas fa-chevron-left"></i>
             </div>
-            
-            <div class="action-card" onclick="alert('قريباً...')">
-                <i class="fas fa-book"></i>
-                <span>الملخصات الشاملة</span>
-                <i class="fas fa-chevron-left" style="font-size: 0.8rem; opacity: 0.5;"></i>
+
+            <div class="list-item" style="opacity: 0.5; cursor: default;">
+                <div class="list-info">
+                    <h3>مذاكرة التابع الأسي</h3>
+                    <p>قريباً إن شاء الله</p>
+                </div>
+                <i class="fas fa-lock"></i>
             </div>
         </div>
     </div>
 
     <div id="quizOverlay" class="overlay">
         <iframe id="quizFrame"></iframe>
-        <div class="bottom-close-bar">
-            <button class="btn-close" onclick="closeQuiz()">إغلاق والعودة للرئيسية</button>
+        <div class="bottom-bar">
+            <button class="btn-close" onclick="closeQuiz()">إنهاء المذاكرة والعودة</button>
         </div>
     </div>
 
     <script>
+        function openOverlay(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function closeOverlay(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
         function openQuiz() {
+            // يتم تحميل ملف qwe.html داخل الإطار
             document.getElementById('quizFrame').src = "qwe.html";
-            document.getElementById('quizOverlay').style.display = 'block';
+            openOverlay('quizOverlay');
         }
 
         function closeQuiz() {
             document.getElementById('quizOverlay').style.display = 'none';
-            document.getElementById('quizFrame').src = "";
+            document.getElementById('quizFrame').src = ""; // تفريغ الذاكرة
         }
     </script>
+
 </body>
 </html>
