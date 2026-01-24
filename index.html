@@ -92,20 +92,17 @@
             transform: translateY(-2px);
         }
 
-        /* تنسيق العداد الجديد */
+        /* تنسيق قسم العداد */
         .visitor-counter {
             margin-top: 25px;
             padding-top: 15px;
             border-top: 1px solid var(--glass-border);
-            font-size: 0.85rem;
-            color: #aaa;
         }
-
-        #hits-count {
-            color: var(--primary-color);
-            font-weight: 900;
-            margin-right: 5px;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        .visitor-counter span {
+            display: block;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 8px;
         }
 
         .action-card i:first-child { 
@@ -250,9 +247,8 @@
         </div>
 
         <div class="visitor-counter">
-            <i class="fas fa-users"></i>
-            <span>عدد زيارات الصفحة:</span>
-            <span id="hits-count">0</span>
+            <span>إجمالي الزيارات</span>
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsafwan-idrees-math.github.io&count_bg=%2300D4FF&title_bg=%23333333&icon=googleanalytics.svg&icon_color=%2300D4FF&title=Zwar&edge_flat=false" alt="Hits">
         </div>
     </div>
 
@@ -291,19 +287,6 @@
     </div>
 
     <script>
-        // دالة جلب عدد الزيارات باستخدام API خارجي موثوق
-        async function updateVisitorCount() {
-            try {
-                // تم إنشاء مفتاح فريد خاص بصفحتك لضمان الخصوصية والبدء من الصفر
-                const response = await fetch('https://api.countapi.xyz/hit/safwan-idrees-math-2024/visits');
-                const data = await response.json();
-                document.getElementById('hits-count').innerText = data.value;
-            } catch (error) {
-                console.log('Error loading visits');
-                document.getElementById('hits-count').innerText = "متصل";
-            }
-        }
-
         function openSelection() {
             document.getElementById('quizOverlay').style.display = 'block';
             document.getElementById('selectionScreen').style.display = 'flex';
@@ -324,9 +307,6 @@
             document.getElementById('quizFrame').src = "";
             document.getElementById('quizFrame').style.display = 'none';
         }
-
-        // تشغيل العداد فور تحميل الصفحة
-        window.addEventListener('load', updateVisitorCount);
     </script>
 </body>
 </html>
