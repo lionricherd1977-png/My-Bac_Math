@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>اختبار نهاية المتتاليات - إعداد المدرس صفوان إدريس</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing:border-box; }
+    body { font-family:'Cairo',sans-serif; background:#000; color:#fff; margin:0; }
+    header { text-align:center; padding:20px; background:#111; }
+    header h1 { margin:0; font-size:1.2rem; font-weight:600; }
+    header h3 { margin:8px 0 0; font-size:1.3rem; font-weight:700; color:#00d4ff; }
+    .card { background:#111; border:1px solid #555; border-radius:14px; padding:20px; margin:20px auto; max-width:950px; }
+    .row { display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    .pill { background:#222; border:1px solid #555; color:#9ad1ff; padding:6px 10px; border-radius:999px; font-weight:700; }
+    .timer { font-weight:700; color:#e63946; }
+    #question-text { font-size:1.1rem; font-weight:600; margin:10px 0; white-space:pre-line; }
+    .btn { display:block; margin:10px auto; padding:12px 16px; width:100%; max-width:650px; font-size:1rem; border:none; border-radius:10px; cursor:pointer; background:#ffffff33; color:#fff; font-weight:700; transition:0.25s; }
+    .btn:hover { background:#ffffff66; }
+    .opt { text-align:right; }
+    .correct { background-color:#4CAF50 !important; color:#fff !important; }
+    .wrong { background-color:#f44336 !important; color:#fff !important; }
+    .hidden { display:none; }
+    .hint-wrap { display:flex; align-items:center; gap:8px; margin:8px 0 14px; }
+    .hint-icon { display:inline-block; background:#00d4ff; color:#000; font-weight:700; border-radius:50%; width:28px; height:28px; text-align:center; line-height:28px; cursor:pointer; user-select:none; }
+    .hint-box { display:none; background:#1a1a1a; border:1px solid #00d4ff; color:#fff; padding:10px; border-radius:8px; font-size:1rem; max-width:800px; white-space:pre-line; }
+    .explain-box { display:none; background:#1a1a1a; border:1px solid #2a7; color:#0f0; padding:12px; border-radius:8px; margin-top:12px; line-height:1.9; white-space:pre-line; }
+    .solution { background:#222; border:1px solid #2a7; color:#0f0; padding:12px; border-radius:8px; display:none; margin-top:10px; line-height:1.9; white-space:pre-line; }
+    .divider { height:1px; background:#333; margin:16px 0; }
+  </style>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']], processEscapes: true },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <header>
+    <h1>نهاية متتالية 1</h1>
+    <h3>إعداد المدرس صفوان إدريس</h3>
+  </header>
+
+  <section id="quiz-card" class="card">
+    <div class="row">
+      <div class="pill">السؤال: <span id="q-count">—</span></div>
+      <div class="pill timer" id="quiz-timer">⏳ 60</div>
+    </div>
+    <h2 id="question-text">جاري التحميل...</h2>
+    <div class="hint-wrap">
+      <span id="hint-icon" class="hint-icon">💡</span>
+      <div id="hint-box" class="hint-box"></div>
+    </div>
+    <div id="options-container"></div>
+    <div id="explain-box" class="explain-box"></div>
+    <button id="next-btn" class="btn hidden">السؤال التالي</button>
+  </section>
+
+  <section id="result-card" class="card hidden">
+    <h2>🎉 أحسنت! انتهى الاختبار</h2>
+    <h3 id="score-line">—</h3>
+    <div class="divider"></div>
+    <button class="btn" id="to-exercises-btn">عرض 5 تمارين محلولة تفصيلياً</button>
+  </section>
+
+  <section id="exercise-card" class="card hidden">
+    <h2 id="ex-title">—</h2>
+    <div id="ex-question" style="font-size:1.1rem; margin-bottom:15px;">—</div>
+    <button class="btn" id="show-solution-btn">عرض خطوات الحل</button>
+    <div id="ex-solution" class="solution"></div>
+    <div class="row" style="margin-top:20px;">
+      <button class="btn" id="next-exercise-btn">التمرين التالي</button>
+      <button class="btn hidden" id="finish-btn" onclick="location.reload()">إعادة الاختبار</button>
+    </div>
+  </section>
+
+<script>
+  const questions = [
+    {
+      q: "ما نهاية المتتالية: \\(u_n = \\frac{3n - 2}{n + 4}\\)؟",
+      a: ["3", "1", "0", "∞"], c: "3",
+      hint: "درجة البسط تساوي درجة المقام، نأخذ نسبة الأمثال.",
+      explain: "نأخذ أعلى قوة في البسط وأعلى قوة في المقام:\n\\(\\lim_{n \\to \\infty} \\frac{3n}{n} = 3\\)."
+    },
+    {
+      q: "احسب نهاية: \\(u_n = \\frac{2n^2 + 1}{n^2 - 5}\\)",
+      a: ["2", "1", "0.5", "0"], c: "2",
+      hint: "درجة البسط تساوي درجة المقام، النهاية هي نسبة الأمثال.",
+      explain: "أمثال n² في البسط هي 2، وفي المقام هي 1.\nإذن النهاية هي \\(2/1 = 2\\)."
+    },
+    {
+      q: "نهاية المتتالية \\(u_n = \\frac{10}{n^2 + 1}\\) هي:",
+      a: ["0", "10", "1", "∞"], c: "0",
+      hint: "عدد مقسوم على لانهاية يساوي صفر.",
+      explain: "بما أن المقام يسعى للانهاية والبسط ثابت، فإن الكسر يسعى للصفر."
+    },
+    {
+      q: "أوجد نهاية المتتالية: \\(u_n = \\frac{n^3}{n^2 + 1}\\)",
+      a: ["∞", "0", "1", "غير موجودة"], c: "∞",
+      hint: "درجة البسط أكبر من درجة المقام.",
+      explain: "بما أن درجة البسط (3) أكبر من درجة المقام (2)، فإن المتتالية تتباعد نحو اللانهاية."
+    },
+    {
+      q: "ما نهاية المتتالية: \\(u_n = \\frac{\\sin(n)}{n}\\)؟",
+      a: ["0", "1", "غير موجودة", "-1"], c: "0",
+      hint: "استخدم مبرهنة الإحاطة (التحصير).",
+      explain: "بما أن \\(-1 \\leq \\sin(n) \\leq 1\\)، فإن \\(\\frac{-1}{n} \\leq u_n \\leq \\frac{1}{n}\\).\nكلا الطرفين يسعى للصفر، إذن النهاية صفر."
+    },
+    {
+      q: "احسب نهاية: \\(u_n = \\sqrt{n+1} - \\sqrt{n}\\)",
+      a: ["0", "1", "∞", "0.5"], c: "0",
+      hint: "اضرب بالمرافق للتخلص من حالة عدم التعيين.",
+      explain: "بعد الضرب بالمرافق تصبح: \\(\\frac{1}{\\sqrt{n+1}+\\sqrt{n}}\\).\nبما أن المقام يسعى للانهاية، فالنهاية هي 0."
+    },
+    {
+      q: "إذا كانت \\(u_n = 5 + (0.2)^n\\)، فإن نهايتها:",
+      a: ["5", "5.2", "0", "∞"], c: "5",
+      hint: "أي عدد محصور بين -1 و 1 مرفوع للقوة n يسعى للصفر.",
+      explain: "بما أن \\(0.2 < 1\\)، فإن \\((0.2)^n \\to 0\\).\nتبقى النهاية \\(5 + 0 = 5\\)."
+    },
+    {
+      q: "نهاية المتتالية الثابتة \\(u_n = \\sqrt{2}\\) هي:",
+      a: ["\\(\\sqrt{2}\\)", "0", "∞", "1"], c: "\\(\\sqrt{2}\\)",
+      hint: "نهاية الثابت هو الثابت نفسه.",
+      explain: "المتتالية لا تتغير بتغير n، لذا نهايتها دائماً هي قيمة الثابت نفسه."
+    },
+    {
+      q: "أوجد نهاية: \\(u_n = \\frac{n^2 + n}{n^2}\\)",
+      a: ["1", "0", "∞", "2"], c: "1",
+      hint: "وزع البسط على المقام أو خذ نسبة الأمثال.",
+      explain: "\\(u_n = \\frac{n^2}{n^2} + \\frac{n}{n^2} = 1 + \\frac{1}{n}\\).\nالنهاية هي \\(1 + 0 = 1\\)."
+    },
+    {
+      q: "نهاية المتتالية \\(u_n = \\frac{2^n}{3^n}\\) هي:",
+      a: ["0", "1", "∞", "2/3"], c: "0",
+      hint: "اكتبها بصيغة \\((2/3)^n\\).",
+      explain: "بما أن \\(2/3 < 1\\)، فإن المتتالية الهندسية تسعى للصفر."
+    }
+  ];
+
+  const exercises = [
+    {
+      title: "تمرين 1: مجموع متتالية حسابية",
+      q: "احسب نهاية \\(u_n = \\frac{1+2+3+...+n}{n^2}\\).",
+      sol: "1. نعلم أن مجموع أول n عدد طبيعي هو \\(S = \\frac{n(n+1)}{2}\\).\n2. تصبح المتتالية \\(u_n = \\frac{n^2+n}{2n^2}\\).\n3. نأخذ أعلى قوة: \\(\\lim \\frac{n^2}{2n^2} = \\frac{1}{2} = 0.5\\)."
+    },
+    {
+      title: "تمرين 2: المتتاليات الهندسية",
+      q: "أوجد نهاية \\(u_n = \\frac{5^n + 4^n}{5^n - 4^n}\\).",
+      sol: "1. نخرج \\(5^n\\) عاملاً مشتركاً من البسط والمقام.\n2. \\(u_n = \\frac{5^n(1 + (4/5)^n)}{5^n(1 - (4/5)^n)}\\).\n3. بما أن \\(4/5 < 1\\)، فإن \\((4/5)^n \\to 0\\).\n4. النهاية هي \\(\\frac{1+0}{1-0} = 1\\)."
+    },
+    {
+      title: "تمرين 3: مبرهنة الإحاطة",
+      q: "أوجد نهاية \\(u_n = \\frac{n + \\cos(n)}{n}\\).",
+      sol: "1. نفرق الكسر: \\(u_n = \\frac{n}{n} + \\frac{\\cos(n)}{n}\\).\n2. تصبح \\(u_n = 1 + \\frac{\\cos(n)}{n}\\).\n3. نعلم أن \\(\\frac{\\cos(n)}{n} \\to 0\\) حسب مبرهنة الإحاطة.\n4. النهاية هي \\(1 + 0 = 1\\)."
+    },
+    {
+      title: "تمرين 4: الضرب بالمرافق",
+      q: "احسب نهاية \\(u_n = \\sqrt{n^2+3n} - n\\).",
+      sol: "1. نضرب بالمرافق: \\(\\frac{(\\sqrt{n^2+3n}-n)(\\sqrt{n^2+3n}+n)}{\\sqrt{n^2+3n}+n}\\).\n2. البسط يصبح: \\(n^2+3n - n^2 = 3n\\).\n3. بالقسمة على n نجد النهاية هي \\(\\frac{3}{1+1} = 1.5\\)."
+    },
+    {
+      title: "تمرين 5: إخراج عامل مشترك",
+      q: "ادرس نهاية \\(u_n = n - \\sqrt{n}\\).",
+      sol: "1. نخرج n عاملاً مشتركاً: \\(u_n = n(1 - \\frac{\\sqrt{n}}{n})\\).\n2. تصبح \\(u_n = n(1 - \\frac{1}{\\sqrt{n}})\\).\n3. عندما تسعى n للانهاية، فإن \\(1/\\sqrt{n} \\to 0\\).\n4. النهاية هي \\(\\infty \\cdot 1 = \\infty\\)."
+    }
+  ];
+
+  let qIdx = 0, score = 0, quizTimer, qSec = 60, answered = false;
+
+  function startQuizTimer() {
+    clearInterval(quizTimer);
+    qSec = 60;
+    document.getElementById("quiz-timer").textContent = "⏳ " + qSec;
+    quizTimer = setInterval(() => {
+      qSec--;
+      document.getElementById("quiz-timer").textContent = "⏳ " + qSec;
+      if (qSec <= 0) { clearInterval(quizTimer); revealCorrect(); }
+    }, 1000);
+  }
+
+  function loadQuestion() {
+    answered = false;
+    document.getElementById("next-btn").classList.add("hidden");
+    const q = questions[qIdx];
+    document.getElementById("q-count").textContent = (qIdx + 1) + " / " + questions.length;
+    document.getElementById("question-text").innerHTML = q.q;
+    document.getElementById("hint-box").style.display = "none";
+    document.getElementById("hint-box").innerHTML = q.hint;
+    const container = document.getElementById("options-container");
+    container.innerHTML = "";
+    
+    // خلط الخيارات لضمان عدم تكرار الترتيب
+    const shuffledOptions = [...q.a].sort(() => Math.random() - 0.5);
+    
+    shuffledOptions.forEach(opt => {
+      const b = document.createElement("button");
+      b.className = "btn opt";
+      b.textContent = opt;
+      b.onclick = () => checkAnswer(opt, q.c, b);
+      container.appendChild(b);
+    });
+    document.getElementById("explain-box").style.display = "none";
+    startQuizTimer();
+    if (window.MathJax) MathJax.typesetPromise();
+  }
+
+  function checkAnswer(selected, correct, btn) {
+    if (answered) return;
+    answered = true;
+    clearInterval(quizTimer);
+    
+    // معالجة المقارنة النصية بدقة للرموز الرياضية
+    if (String(selected).trim() === String(correct).trim()) {
+      score++;
+      btn.classList.add("correct");
+    } else {
+      btn.classList.add("wrong");
+    }
+    revealCorrect();
+  }
+
+  function revealCorrect() {
+    const q = questions[qIdx];
+    document.querySelectorAll(".opt").forEach(btn => {
+      btn.disabled = true;
+      if (String(btn.textContent).trim() === String(q.c).trim()) {
+        btn.classList.add("correct");
+      }
+    });
+    const exp = document.getElementById("explain-box");
+    exp.innerHTML = "<strong>توضيح الحل:</strong><br>" + q.explain.replace(/\n/g, "<br>");
+    exp.style.display = "block";
+    document.getElementById("next-btn").classList.remove("hidden");
+    if (window.MathJax) MathJax.typesetPromise();
+  }
+
+  document.getElementById("next-btn").onclick = () => {
+    qIdx++;
+    if (qIdx < questions.length) loadQuestion();
+    else showResult();
+  };
+
+  function showResult() {
+    document.getElementById("quiz-card").classList.add("hidden");
+    document.getElementById("result-card").classList.remove("hidden");
+    document.getElementById("score-line").textContent = `درجتك المستحقة: ${score} من ${questions.length}`;
+  }
+
+  document.getElementById("hint-icon").onclick = () => {
+    const box = document.getElementById("hint-box");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+  };
+
+  let exIdx = 0;
+  document.getElementById("to-exercises-btn").onclick = () => {
+    document.getElementById("result-card").classList.add("hidden");
+    document.getElementById("exercise-card").classList.remove("hidden");
+    loadExercise();
+  };
+
+  function loadExercise() {
+    const ex = exercises[exIdx];
+    document.getElementById("ex-title").innerHTML = ex.title;
+    document.getElementById("ex-question").innerHTML = ex.q;
+    const sol = document.getElementById("ex-solution");
+    sol.innerHTML = ex.sol.replace(/\n/g, "<br>");
+    sol.style.display = "none";
+    if (window.MathJax) MathJax.typesetPromise();
+  }
+
+  document.getElementById("show-solution-btn").onclick = () => {
+    document.getElementById("ex-solution").style.display = "block";
+    if (window.MathJax) MathJax.typesetPromise();
+  };
+
+  document.getElementById("next-exercise-btn").onclick = () => {
+    exIdx++;
+    if (exIdx < exercises.length) loadExercise();
+    else {
+      document.getElementById("next-exercise-btn").classList.add("hidden");
+      document.getElementById("finish-btn").classList.remove("hidden");
+    }
+  };
+
+  loadQuestion();
+</script>
+</body>
+</html>
