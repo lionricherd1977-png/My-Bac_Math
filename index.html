@@ -28,12 +28,11 @@
             overflow-x: hidden;
         }
 
-        /* الحاوية الكبيرة (الستايل الأصلي) */
         .main-container {
             width: 90%;
-            max-width: 350px;
-            margin-top: 40px;
-            padding: 10px;
+            max-width: 400px;
+            margin-top: 50px;
+            padding: 30px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
@@ -109,7 +108,6 @@
 
         .action-card span { font-weight: 700; font-size: 1.05rem; flex-grow: 1; text-align: right; padding-right: 15px; }
 
-        /* العداد المنسق */
         .visitor-counter {
             margin-top: 25px;
             padding-top: 15px;
@@ -126,7 +124,6 @@
             border-radius: 5px;
         }
 
-        /* نافذة المذاكرات */
         .overlay {
             display: none;
             position: fixed;
@@ -136,33 +133,43 @@
             z-index: 10000;
         }
 
+        /* تحسين شاشة الاختيار لدعم التمرير */
         .selection-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
-            height: 100%;
+            padding: 20px;
+            height: calc(100% - 90px); /* ترك مساحة لزر الإغلاق */
+            overflow-y: auto; /* تفعيل التمرير العمودي */
+            -webkit-overflow-scrolling: touch;
         }
 
         .selection-screen h2 {
             font-weight: 900;
             color: var(--primary-color);
-            margin: 20px 0 30px;
+            margin: 15px 0 25px;
             font-size: 1.5rem;
         }
 
         .quiz-option {
             width: 100%;
-            max-width: 300px;
-            margin-bottom: 15px;
+            max-width: 340px;
+            margin-bottom: 12px;
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--glass-border);
-            padding: 22px;
-            border-radius: 25px;
+            padding: 18px;
+            border-radius: 22px;
             display: flex;
             align-items: center;
             gap: 15px;
             cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0; /* منع انضغاط العناصر */
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(255,255,255,0.1);
         }
 
         .icon-box {
@@ -174,6 +181,7 @@
             justify-content: center;
             color: #000;
             font-size: 1.4rem;
+            flex-shrink: 0;
         }
 
         .bottom-close-bar {
@@ -185,6 +193,7 @@
             text-align: center;
             border-top: 1px solid #222;
             z-index: 10001;
+            box-shadow: 0 -10px 20px rgba(0,0,0,0.5);
         }
 
         .btn-close {
@@ -207,41 +216,33 @@
 
     <div class="main-container">
         <img src="photo.jpg" alt="الأستاذ صفوان إدريس" class="profile-img">
-        
         <div class="title-section">
             <span class="title-top">موقع الأستاذ</span>
             <span class="title-name">صفوان إدريس</span>
         </div>
-        
-        <a href="tel:0992320116" class="phone-number">
-            <i class="fas fa-phone"></i>
-            0992320116
-        </a>
-
+        <a href="tel:0992320116" class="phone-number"><i class="fas fa-phone"></i> 0992320116</a>
         <div class="menu-grid">
             <div class="action-card" onclick="openSelection()">
                 <i class="fas fa-laptop-code"></i>
                 <span>بدء المذاكرة الرقمية</span>
                 <i class="fas fa-chevron-left" style="font-size: 0.8rem; opacity: 0.5;"></i>
             </div>
-            
             <div class="action-card" onclick="alert('سيتم توفير الملخصات قريباً...')">
                 <i class="fas fa-file-pdf"></i>
                 <span>الملخصات الشاملة</span>
                 <i class="fas fa-chevron-left" style="font-size: 0.8rem; opacity: 0.5;"></i>
             </div>
         </div>
-
         <div class="visitor-counter">
             <span>إجمالي الزيارات</span>
-            <img src="https://counter7.optistats.ovh/private/freecounterstat.php?c=l9m4mryu32g924l5m7c4yuy46r3u7p5y" border="0" title="visitor counter" alt="visitor counter">
+            <img src="https://counter7.optistats.ovh/private/freecounterstat.php?c=l9m4mryu32g924l5m7c4yuy46r3u7p5y" border="0">
         </div>
     </div>
 
     <div id="quizOverlay" class="overlay">
         <div id="selectionScreen" class="selection-screen">
             <img src="photo.jpg" class="profile-img-small">
-            <div style="text-align: center; margin-bottom: 10px;">
+            <div style="text-align: center; margin-bottom: 5px;">
                 <span style="display:block; font-weight:900; color:var(--primary-color); font-size: 1.2rem;">الأستاذ صفوان إدريس</span>
                 <small style="opacity:0.6">اختر المادة للبدء</small>
             </div>
@@ -249,10 +250,26 @@
             <h2>مذاكرات الفصل الأول</h2>
 
             <div class="quiz-option" onclick="startQuiz('qwe.html')">
-                <div class="icon-box"><i class="fas fa-square-root-variable"></i></div>
+                <div class="icon-box"><i class="fas fa-list-ol"></i></div>
                 <div style="text-align: right; padding-right: 10px;">
                     <strong style="font-size: 1.1rem; display: block;">مذاكرة المتتاليات</strong>
-                    <small style="opacity:0.6">مذاكره 1</small>
+                    <small style="opacity:0.6">حسب النظام الحديث </small>
+                </div>
+            </div>
+
+            <div class="quiz-option" onclick="startQuiz('qwe1.html')">
+                <div class="icon-box"><i class="fas fa-arrow-right-long"></i></div>
+                <div style="text-align: right; padding-right: 10px;">
+                    <strong style="font-size: 1.1rem; display: block;">نهاية متتالية</strong>
+                    <small style="opacity:0.6">  حسب النظام الحديث</small>
+                </div>
+            </div>
+
+            <div class="quiz-option" onclick="startQuiz('n1.html')">
+                <div class="icon-box"><i class="fas fa-infinity"></i></div>
+                <div style="text-align: right; padding-right: 10px;">
+                    <strong style="font-size: 1.1rem; display: block;">مذاكرة النهايات</strong>
+                    <small style="opacity:0.6">أسئلة مؤتمتة + تمارين</small>
                 </div>
             </div>
 
@@ -263,6 +280,8 @@
                     <small style="opacity:0.6">فراغ + مستوي</small>
                 </div>
             </div>
+            
+            <div style="min-height: 40px; width: 100%;"></div>
         </div>
 
         <iframe id="quizFrame"></iframe>
@@ -291,6 +310,7 @@
             document.getElementById('quizOverlay').style.display = 'none';
             document.getElementById('quizFrame').src = "";
             document.getElementById('quizFrame').style.display = 'none';
+            document.getElementById('closeBtn').innerText = "إغلاق والعودة";
         }
     </script>
 </body>
